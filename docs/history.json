@@ -84,7 +84,8 @@
     ],
     "portfolio_value": 100000.0,
     "factor_leg_value": 50000.0,
-    "sector_leg_value": 50000.0
+    "sector_leg_value": 50000.0,
+    "benchmark_close": null
   },
   {
     "asof": "2019-05-31",
@@ -171,7 +172,8 @@
     ],
     "portfolio_value": 93262.30499433528,
     "factor_leg_value": 47117.027155868265,
-    "sector_leg_value": 46145.27783846701
+    "sector_leg_value": 46145.27783846701,
+    "benchmark_close": null
   },
   {
     "asof": "2019-06-28",
@@ -258,7 +260,8 @@
     ],
     "portfolio_value": 97825.07913074407,
     "factor_leg_value": 50011.823022474084,
-    "sector_leg_value": 47813.256108269976
+    "sector_leg_value": 47813.256108269976,
+    "benchmark_close": null
   },
   {
     "asof": "2019-07-31",
@@ -345,7 +348,8 @@
     ],
     "portfolio_value": 98794.86877863297,
     "factor_leg_value": 50773.71808188118,
-    "sector_leg_value": 48021.150696751785
+    "sector_leg_value": 48021.150696751785,
+    "benchmark_close": 65.19499969482422
   },
   {
     "asof": "2019-08-30",
@@ -432,7 +436,8 @@
     ],
     "portfolio_value": 96176.88110669694,
     "factor_leg_value": 49928.380731536054,
-    "sector_leg_value": 46248.500375160875
+    "sector_leg_value": 46248.500375160875,
+    "benchmark_close": 63.290000915527344
   },
   {
     "asof": "2019-09-30",
@@ -523,7 +528,8 @@
     ],
     "portfolio_value": 99262.12937319584,
     "factor_leg_value": 50861.43918999452,
-    "sector_leg_value": 48400.690183201325
+    "sector_leg_value": 48400.690183201325,
+    "benchmark_close": 64.33000183105469
   },
   {
     "asof": "2019-10-31",
@@ -614,7 +620,8 @@
     ],
     "portfolio_value": 98171.32815768,
     "factor_leg_value": 50474.940588442136,
-    "sector_leg_value": 47696.387569237864
+    "sector_leg_value": 47696.387569237864,
+    "benchmark_close": 62.619998931884766
   },
   {
     "asof": "2019-11-29",
@@ -705,7 +712,8 @@
     ],
     "portfolio_value": 98062.11804772493,
     "factor_leg_value": 51111.35105287705,
-    "sector_leg_value": 46950.76699484788
+    "sector_leg_value": 46950.76699484788,
+    "benchmark_close": 64.47000122070312
   },
   {
     "asof": "2019-12-31",
@@ -796,7 +804,8 @@
     ],
     "portfolio_value": 100785.03939805133,
     "factor_leg_value": 52042.99725887032,
-    "sector_leg_value": 48742.04213918102
+    "sector_leg_value": 48742.04213918102,
+    "benchmark_close": 65.13500213623047
   },
   {
     "asof": "2020-01-31",
@@ -887,7 +896,8 @@
     ],
     "portfolio_value": 103282.08131067496,
     "factor_leg_value": 51892.64007826587,
-    "sector_leg_value": 51389.441232409095
+    "sector_leg_value": 51389.441232409095,
+    "benchmark_close": 64.45999908447266
   },
   {
     "asof": "2020-02-28",
@@ -978,7 +988,8 @@
     ],
     "portfolio_value": 95023.65416761977,
     "factor_leg_value": 48502.00956022832,
-    "sector_leg_value": 46521.64460739145
+    "sector_leg_value": 46521.64460739145,
+    "benchmark_close": 60.53499984741211
   },
   {
     "asof": "2020-03-31",
@@ -1069,7 +1080,8 @@
     ],
     "portfolio_value": 88372.89028907224,
     "factor_leg_value": 43964.898931393785,
-    "sector_leg_value": 44407.99135767846
+    "sector_leg_value": 44407.99135767846,
+    "benchmark_close": 55.19499969482422
   },
   {
     "asof": "2020-04-30",
@@ -1160,7 +1172,8 @@
     ],
     "portfolio_value": 97249.8370595736,
     "factor_leg_value": 48212.076931045136,
-    "sector_leg_value": 49037.76012852847
+    "sector_leg_value": 49037.76012852847,
+    "benchmark_close": 59.369998931884766
   },
   {
     "asof": "2020-05-29",
@@ -1251,7 +1264,8 @@
     ],
     "portfolio_value": 100616.57047022134,
     "factor_leg_value": 50030.15157031711,
-    "sector_leg_value": 50586.41889990422
+    "sector_leg_value": 50586.41889990422,
+    "benchmark_close": 62.90999984741211
   },
   {
     "asof": "2020-06-30",
@@ -1342,7 +1356,8 @@
     ],
     "portfolio_value": 106946.95305673251,
     "factor_leg_value": 52525.40212558316,
-    "sector_leg_value": 54421.550931149344
+    "sector_leg_value": 54421.550931149344,
+    "benchmark_close": 64.91999816894531
   },
   {
     "asof": "2020-07-31",
@@ -1433,20 +1448,100 @@
     ],
     "portfolio_value": 113258.88086173043,
     "factor_leg_value": 56375.004512837375,
-    "sector_leg_value": 56883.87634889306
+    "sector_leg_value": 56883.87634889306,
+    "benchmark_close": 64.29000091552734
   },
   {
-    "asof": "2020-08-31",
-    "factor_pick": null,
-    "sector_pick": null,
-    "factor_return_12m": null,
-    "sector_return_12m": null,
+    "asof": "2020-08-28",
+    "factor_pick": "IUMO.L",
+    "sector_pick": "IUIT.L",
+    "factor_return_12m": 0.28331028338072306,
+    "sector_return_12m": 0.5861713675070253,
     "overlay_in_market": true,
-    "factor_rankings": [],
-    "sector_rankings": [],
+    "factor_rankings": [
+      [
+        "IUMO.L",
+        0.28331028338072306
+      ],
+      [
+        "IUQA.L",
+        0.21309134591636059
+      ],
+      [
+        "IEMO.L",
+        0.13132672335254658
+      ],
+      [
+        "WSML.L",
+        0.08307345900258567
+      ],
+      [
+        "IEQU.L",
+        0.03544620517097585
+      ],
+      [
+        "IUVL.L",
+        0.014098472515242877
+      ],
+      [
+        "CUS1.L",
+        -0.02432329393823862
+      ],
+      [
+        "IEVL.L",
+        -0.06536906722563263
+      ]
+    ],
+    "sector_rankings": [
+      [
+        "IUIT.L",
+        0.5861713675070253
+      ],
+      [
+        "IUCD.L",
+        0.33738896326914425
+      ],
+      [
+        "IUCM.L",
+        0.28632768053138613
+      ],
+      [
+        "IUMS.L",
+        0.16772580933527204
+      ],
+      [
+        "IHCU.L",
+        0.11888111888111896
+      ],
+      [
+        "IUCS.L",
+        0.1017460936150898
+      ],
+      [
+        "IUIS.L",
+        0.07472139250034027
+      ],
+      [
+        "IUFS.L",
+        -0.023384529856951608
+      ],
+      [
+        "IUUS.L",
+        -0.033410575183868696
+      ],
+      [
+        "IUSP.L",
+        -0.2578704858459424
+      ],
+      [
+        "IUES.L",
+        -0.31913486103633304
+      ]
+    ],
     "portfolio_value": 125327.14245976674,
     "factor_leg_value": 61181.49567827322,
-    "sector_leg_value": 64145.64678149352
+    "sector_leg_value": 64145.64678149352,
+    "benchmark_close": 67.62000274658203
   },
   {
     "asof": "2020-09-30",
@@ -1535,9 +1630,10 @@
         -0.4543378920867396
       ]
     ],
-    "portfolio_value": 125327.14245976674,
-    "factor_leg_value": 61181.49567827322,
-    "sector_leg_value": 64145.64678149352
+    "portfolio_value": 121164.29325623704,
+    "factor_leg_value": 59856.5813941898,
+    "sector_leg_value": 61307.71186204724,
+    "benchmark_close": 67.79499816894531
   },
   {
     "asof": "2020-10-30",
@@ -1626,9 +1722,10 @@
         -0.48132079194630195
       ]
     ],
-    "portfolio_value": 119227.11346898007,
-    "factor_leg_value": 58594.176316899866,
-    "sector_leg_value": 60632.9371520802
+    "portfolio_value": 115333.37005288865,
+    "factor_leg_value": 57353.968644092936,
+    "sector_leg_value": 57979.40140879572,
+    "benchmark_close": 65.74500274658203
   },
   {
     "asof": "2020-11-30",
@@ -1717,9 +1814,10 @@
         -0.31360389530637234
       ]
     ],
-    "portfolio_value": 130363.78483099861,
-    "factor_leg_value": 63827.94714729479,
-    "sector_leg_value": 66535.83768370382
+    "portfolio_value": 126100.92898551661,
+    "factor_leg_value": 62476.96118303338,
+    "sector_leg_value": 63623.96780248323,
+    "benchmark_close": 71.44999694824219
   },
   {
     "asof": "2020-12-31",
@@ -1808,9 +1906,10 @@
         -0.33349964550624567
       ]
     ],
-    "portfolio_value": 137910.1259548217,
-    "factor_leg_value": 66595.2288695068,
-    "sector_leg_value": 71314.89708531491
+    "portfolio_value": 133379.5472357588,
+    "factor_leg_value": 65185.67046271895,
+    "sector_leg_value": 68193.87677303987,
+    "benchmark_close": 73.125
   },
   {
     "asof": "2021-01-29",
@@ -1899,9 +1998,10 @@
         -0.24558381219067738
       ]
     ],
-    "portfolio_value": 139106.9273335322,
-    "factor_leg_value": 68023.98948328845,
-    "sector_leg_value": 71082.93785024373
+    "portfolio_value": 134556.25883416022,
+    "factor_leg_value": 66584.18984798272,
+    "sector_leg_value": 67972.06898617749,
+    "benchmark_close": 72.86000061035156
   },
   {
     "asof": "2021-02-26",
@@ -1986,9 +2086,10 @@
         -0.1713264296810525
       ]
     ],
-    "portfolio_value": 137173.0492552247,
-    "factor_leg_value": 67523.98176436395,
-    "sector_leg_value": 69649.06749086073
+    "portfolio_value": 132695.71575272482,
+    "factor_leg_value": 66094.76532091195,
+    "sector_leg_value": 66600.95043181287,
+    "benchmark_close": 73.20500183105469
   },
   {
     "asof": "2021-03-31",
@@ -2073,9 +2174,10 @@
         0.1571934883123962
       ]
     ],
-    "portfolio_value": 139003.89954803267,
-    "factor_leg_value": 68687.16541699217,
-    "sector_leg_value": 70316.73413104049
+    "portfolio_value": 134472.72631660668,
+    "factor_leg_value": 67233.32896210642,
+    "sector_leg_value": 67239.39735450027,
+    "benchmark_close": 76.12999725341797
   },
   {
     "asof": "2021-04-30",
@@ -2160,9 +2262,10 @@
         0.11859381617958498
       ]
     ],
-    "portfolio_value": 145625.81135152298,
-    "factor_leg_value": 71566.70828091216,
-    "sector_leg_value": 74059.10307061083
+    "portfolio_value": 140869.90877176548,
+    "factor_leg_value": 70051.92325778143,
+    "sector_leg_value": 70817.98551398404,
+    "benchmark_close": 79.0
   },
   {
     "asof": "2021-05-28",
@@ -2247,9 +2350,10 @@
         0.0659385113268609
       ]
     ],
-    "portfolio_value": 149805.2936983986,
-    "factor_leg_value": 71964.05744461445,
-    "sector_leg_value": 77841.23625378415
+    "portfolio_value": 144875.4597838707,
+    "factor_leg_value": 70440.86210645612,
+    "sector_leg_value": 74434.59767741458,
+    "benchmark_close": 78.37000274658203
   },
   {
     "asof": "2021-06-30",
@@ -2334,9 +2438,10 @@
         0.1469253586689272
       ]
     ],
-    "portfolio_value": 147522.29297160322,
-    "factor_leg_value": 71998.39597244837,
-    "sector_leg_value": 75523.89699915485
+    "portfolio_value": 142693.14812358364,
+    "factor_leg_value": 70474.47382305436,
+    "sector_leg_value": 72218.67430052928,
+    "benchmark_close": 81.24500274658203
   },
   {
     "asof": "2021-07-30",
@@ -2421,22 +2526,98 @@
         0.13674380082011917
       ]
     ],
-    "portfolio_value": 147037.08552806237,
-    "factor_leg_value": 71550.54047162201,
-    "sector_leg_value": 75486.54505644036
+    "portfolio_value": 142219.0546829622,
+    "factor_leg_value": 70036.09765726345,
+    "sector_leg_value": 72182.95702569875,
+    "benchmark_close": 81.38500213623047
   },
   {
     "asof": "2021-08-31",
-    "factor_pick": null,
-    "sector_pick": null,
-    "factor_return_12m": null,
-    "sector_return_12m": null,
+    "factor_pick": "CUS1.L",
+    "sector_pick": "IUFS.L",
+    "factor_return_12m": 0.4268130665833072,
+    "sector_return_12m": 0.5587643978502705,
     "overlay_in_market": true,
-    "factor_rankings": [],
-    "sector_rankings": [],
-    "portfolio_value": 151773.85791511706,
-    "factor_leg_value": 72181.15609041866,
-    "sector_leg_value": 79592.7018246984
+    "factor_rankings": [
+      [
+        "CUS1.L",
+        0.4268130665833072
+      ],
+      [
+        "IUVL.L",
+        0.4090463973855394
+      ],
+      [
+        "WSML.L",
+        0.4077219977806119
+      ],
+      [
+        "IEVL.L",
+        0.36640465917666987
+      ],
+      [
+        "IUQA.L",
+        0.3310850856517036
+      ],
+      [
+        "IEQU.L",
+        0.2861861045736005
+      ],
+      [
+        "IUMO.L",
+        0.20115487294057077
+      ]
+    ],
+    "sector_rankings": [
+      [
+        "IUFS.L",
+        0.5587643978502705
+      ],
+      [
+        "IUES.L",
+        0.4103726996278352
+      ],
+      [
+        "IUCM.L",
+        0.37405423055206866
+      ],
+      [
+        "IUMS.L",
+        0.3690962370625601
+      ],
+      [
+        "IUIS.L",
+        0.35962592235373103
+      ],
+      [
+        "IUSP.L",
+        0.3365822231621811
+      ],
+      [
+        "IUIT.L",
+        0.3005855510708113
+      ],
+      [
+        "IHCU.L",
+        0.2370833333333333
+      ],
+      [
+        "IUUS.L",
+        0.20579419368769347
+      ],
+      [
+        "IUCD.L",
+        0.19842645372144507
+      ],
+      [
+        "IUCS.L",
+        0.1447857097008698
+      ]
+    ],
+    "portfolio_value": 146800.85160098952,
+    "factor_leg_value": 70653.36562995969,
+    "sector_leg_value": 76147.48597102982,
+    "benchmark_close": 84.08499908447266
   },
   {
     "asof": "2021-09-30",
@@ -2521,9 +2702,10 @@
         0.10963456734607102
       ]
     ],
-    "portfolio_value": 151773.85791511706,
-    "factor_leg_value": 72181.15609041866,
-    "sector_leg_value": 79592.7018246984
+    "portfolio_value": 146013.43541475537,
+    "factor_leg_value": 70814.33446824933,
+    "sector_leg_value": 75199.10094650605,
+    "benchmark_close": 82.70999908447266
   },
   {
     "asof": "2021-10-29",
@@ -2608,9 +2790,10 @@
         0.09972150229795673
       ]
     ],
-    "portfolio_value": 160698.61459969525,
-    "factor_leg_value": 73563.32344035077,
-    "sector_leg_value": 87135.29115934449
+    "portfolio_value": 154531.76374227216,
+    "factor_leg_value": 72206.43232775998,
+    "sector_leg_value": 82325.33141451218,
+    "benchmark_close": 84.97000122070312
   },
   {
     "asof": "2021-11-30",
@@ -2695,9 +2878,10 @@
         0.09122804224387893
       ]
     ],
-    "portfolio_value": 153604.76571695638,
-    "factor_leg_value": 70737.1591412921,
-    "sector_leg_value": 82867.60657566428
+    "portfolio_value": 147725.624738745,
+    "factor_leg_value": 69432.39722897085,
+    "sector_leg_value": 78293.22750977417,
+    "benchmark_close": 86.0
   },
   {
     "asof": "2021-12-31",
@@ -2786,9 +2970,10 @@
         0.18145989872046941
       ]
     ],
-    "portfolio_value": 156851.83897630975,
-    "factor_leg_value": 72741.22146315881,
-    "sector_leg_value": 84110.61751315092
+    "portfolio_value": 150867.1171317764,
+    "factor_leg_value": 71399.49419600524,
+    "sector_leg_value": 79467.62293577117,
+    "benchmark_close": 87.75
   },
   {
     "asof": "2022-01-31",
@@ -2877,9 +3062,10 @@
         0.09298605556907891
       ]
     ],
-    "portfolio_value": 170465.64027326822,
-    "factor_leg_value": 70403.00691372776,
-    "sector_leg_value": 100062.63335954046
+    "portfolio_value": 163643.47923488583,
+    "factor_leg_value": 69104.40851015832,
+    "sector_leg_value": 94539.0707247275,
+    "benchmark_close": 83.41000366210938
   },
   {
     "asof": "2022-02-28",
@@ -2968,9 +3154,10 @@
         -0.00304175627923875
       ]
     ],
-    "portfolio_value": 174634.13815071338,
-    "factor_leg_value": 67569.18982272546,
-    "sector_leg_value": 107064.94832798792
+    "portfolio_value": 167477.71231675518,
+    "factor_leg_value": 66322.86177679704,
+    "sector_leg_value": 101154.85053995813,
+    "benchmark_close": 81.91500091552734
   },
   {
     "asof": "2022-03-31",
@@ -3059,9 +3246,10 @@
         -0.020274157586136488
       ]
     ],
-    "portfolio_value": 187210.93057055937,
-    "factor_leg_value": 67591.53700132482,
-    "sector_leg_value": 119619.39356923455
+    "portfolio_value": 179361.07395261814,
+    "factor_leg_value": 66344.79675694458,
+    "sector_leg_value": 113016.27719567357,
+    "benchmark_close": 85.88500213623047
   },
   {
     "asof": "2022-04-29",
@@ -3150,9 +3338,10 @@
         -0.22054705818100928
       ]
     ],
-    "portfolio_value": 180996.1652031416,
-    "factor_leg_value": 62536.92097099985,
-    "sector_leg_value": 118459.24423214176
+    "portfolio_value": 173303.58351455024,
+    "factor_leg_value": 61383.41419199815,
+    "sector_leg_value": 111920.16932255209,
+    "benchmark_close": 83.30999755859375
   },
   {
     "asof": "2022-05-31",
@@ -3241,9 +3430,10 @@
         -0.2215855221861912
       ]
     ],
-    "portfolio_value": 200953.1224478594,
-    "factor_leg_value": 64304.441101278004,
-    "sector_leg_value": 136648.6813465814
+    "portfolio_value": 192223.86240999502,
+    "factor_leg_value": 63118.3320383672,
+    "sector_leg_value": 129105.53037162783,
+    "benchmark_close": 81.8550033569336
   },
   {
     "asof": "2022-06-30",
@@ -3332,9 +3522,10 @@
         -0.2965997466765954
       ]
     ],
-    "portfolio_value": 169318.8334336039,
-    "factor_leg_value": 57613.30356298644,
-    "sector_leg_value": 111705.52987061747
+    "portfolio_value": 162089.88105117003,
+    "factor_leg_value": 56550.613951974,
+    "sector_leg_value": 105539.26709919603,
+    "benchmark_close": 77.93499755859375
   },
   {
     "asof": "2022-07-29",
@@ -3423,9 +3614,10 @@
         -0.3205193077021513
       ]
     ],
-    "portfolio_value": 181378.72327679646,
-    "factor_leg_value": 60350.58766641677,
-    "sector_leg_value": 121028.1356103797
+    "portfolio_value": 173584.6634632511,
+    "factor_leg_value": 59237.40826920548,
+    "sector_leg_value": 114347.25519404563,
+    "benchmark_close": 82.66500091552734
   },
   {
     "asof": "2022-08-31",
@@ -3514,9 +3706,10 @@
         -0.353954080516369
       ]
     ],
-    "portfolio_value": 184615.69909969615,
-    "factor_leg_value": 58201.164320175776,
-    "sector_leg_value": 126414.53477952037
+    "portfolio_value": 176563.95095489552,
+    "factor_leg_value": 57127.63149274017,
+    "sector_leg_value": 119436.31946215537,
+    "benchmark_close": 83.93499755859375
   },
   {
     "asof": "2022-09-30",
@@ -3605,9 +3798,10 @@
         -0.3871853447532744
       ]
     ],
-    "portfolio_value": 171856.58333414583,
-    "factor_leg_value": 56380.5700936945,
-    "sector_leg_value": 115476.01324045134
+    "portfolio_value": 164442.2343333208,
+    "factor_leg_value": 55340.61851313594,
+    "sector_leg_value": 109101.61582018486,
+    "benchmark_close": 80.36499786376953
   },
   {
     "asof": "2022-10-31",
@@ -3696,9 +3890,10 @@
         -0.4094846821419861
       ]
     ],
-    "portfolio_value": 200648.37165928312,
-    "factor_leg_value": 58861.891750484196,
-    "sector_leg_value": 141786.4799087989
+    "portfolio_value": 191735.88871323882,
+    "factor_leg_value": 57776.17166537585,
+    "sector_leg_value": 133959.71704786297,
+    "benchmark_close": 81.33499908447266
   },
   {
     "asof": "2022-11-30",
@@ -3787,9 +3982,10 @@
         -0.3654822123578678
       ]
     ],
-    "portfolio_value": 200423.36706088192,
-    "factor_leg_value": 57311.006711331705,
-    "sector_leg_value": 143112.3603495502
+    "portfolio_value": 191466.30052326148,
+    "factor_leg_value": 56253.89302990199,
+    "sector_leg_value": 135212.4074933595,
+    "benchmark_close": 82.66999816894531
   },
   {
     "asof": "2022-12-30",
@@ -3878,9 +4074,10 @@
         -0.40750281732667926
       ]
     ],
-    "portfolio_value": 193431.1604118652,
-    "factor_leg_value": 55622.33763106179,
-    "sector_leg_value": 137808.8227808034
+    "portfolio_value": 184798.00258731516,
+    "factor_leg_value": 54596.37180918988,
+    "sector_leg_value": 130201.63077812528,
+    "benchmark_close": 80.37000274658203
   },
   {
     "asof": "2023-01-31",
@@ -3969,9 +4166,10 @@
         -0.25166899008906685
       ]
     ],
-    "portfolio_value": 202294.40803252195,
-    "factor_leg_value": 59389.21353826258,
-    "sector_leg_value": 142905.19449425937
+    "portfolio_value": 193310.44430210424,
+    "factor_leg_value": 58293.76689086955,
+    "sector_leg_value": 135016.67741123468,
+    "benchmark_close": 83.91000366210938
   },
   {
     "asof": "2023-02-28",
@@ -4060,9 +4258,10 @@
         -0.2343304418010067
       ]
     ],
-    "portfolio_value": 194544.94491518283,
-    "factor_leg_value": 60382.2854435747,
-    "sector_leg_value": 134162.65947160812
+    "portfolio_value": 186025.2608937706,
+    "factor_leg_value": 59268.521374136784,
+    "sector_leg_value": 126756.73951963382,
+    "benchmark_close": 83.36000061035156
   },
   {
     "asof": "2023-03-31",
@@ -4151,9 +4350,10 @@
         -0.21409813842613024
       ]
     ],
-    "portfolio_value": 188338.9161015289,
-    "factor_leg_value": 55833.61508373073,
-    "sector_leg_value": 132505.3010177982
+    "portfolio_value": 179994.6212005458,
+    "factor_leg_value": 54803.752204406686,
+    "sector_leg_value": 125190.86899613912,
+    "benchmark_close": 83.70999908447266
   },
   {
     "asof": "2023-04-28",
@@ -4242,9 +4442,10 @@
         -0.2119731187307785
       ]
     ],
-    "portfolio_value": 194382.06850669067,
-    "factor_leg_value": 56863.28108444279,
-    "sector_leg_value": 137518.7874222479
+    "portfolio_value": 185742.03147371908,
+    "factor_leg_value": 55814.425797218144,
+    "sector_leg_value": 129927.60567650093,
+    "benchmark_close": 83.62000274658203
   },
   {
     "asof": "2023-05-31",
@@ -4337,9 +4538,10 @@
         -0.15746063274604005
       ]
     ],
-    "portfolio_value": 177680.40108088072,
-    "factor_leg_value": 54227.992775351035,
-    "sector_leg_value": 123452.40830552968
+    "portfolio_value": 169865.4514261603,
+    "factor_leg_value": 53227.74594025295,
+    "sector_leg_value": 116637.70548590733,
+    "benchmark_close": 83.87000274658203
   },
   {
     "asof": "2023-06-30",
@@ -4432,9 +4634,10 @@
         -0.11281047816748302
       ]
     ],
-    "portfolio_value": 186304.30079523884,
-    "factor_leg_value": 55167.824119195895,
-    "sector_leg_value": 131136.47667604295
+    "portfolio_value": 178047.84709366222,
+    "factor_leg_value": 54150.24189550799,
+    "sector_leg_value": 123897.60519815423,
+    "benchmark_close": 86.69000244140625
   },
   {
     "asof": "2023-07-31",
@@ -4527,9 +4730,10 @@
         -0.15681878716665365
       ]
     ],
-    "portfolio_value": 194301.14245859924,
-    "factor_leg_value": 57324.38279871487,
-    "sector_leg_value": 136976.75965988435
+    "portfolio_value": 185682.5208093882,
+    "factor_leg_value": 56267.022392514686,
+    "sector_leg_value": 129415.49841687352,
+    "benchmark_close": 88.79000091552734
   },
   {
     "asof": "2023-08-31",
@@ -4622,9 +4826,10 @@
         -0.16113026258344276
       ]
     ],
-    "portfolio_value": 189497.0028400155,
-    "factor_leg_value": 57249.496195881664,
-    "sector_leg_value": 132247.50664413386
+    "portfolio_value": 181140.82223208327,
+    "factor_leg_value": 56193.5170889633,
+    "sector_leg_value": 124947.30514311997,
+    "benchmark_close": 87.88999938964844
   },
   {
     "asof": "2023-09-29",
@@ -4717,9 +4922,10 @@
         -0.11452095729713829
       ]
     ],
-    "portfolio_value": 178354.04802484426,
-    "factor_leg_value": 54491.23726574088,
-    "sector_leg_value": 123862.81075910339
+    "portfolio_value": 170511.5881224211,
+    "factor_leg_value": 53486.13483015136,
+    "sector_leg_value": 117025.45329226973,
+    "benchmark_close": 87.61000061035156
   },
   {
     "asof": "2023-10-31",
@@ -4812,9 +5018,10 @@
         -0.17175044249242788
       ]
     ],
-    "portfolio_value": 171218.73662884237,
-    "factor_leg_value": 53193.231382950034,
-    "sector_leg_value": 118025.50524589235
+    "portfolio_value": 163722.44412600304,
+    "factor_leg_value": 52212.07094133361,
+    "sector_leg_value": 111510.37318466944,
+    "benchmark_close": 84.95999908447266
   },
   {
     "asof": "2023-11-30",
@@ -4907,9 +5114,10 @@
         -0.10678548013112654
       ]
     ],
-    "portfolio_value": 194466.7738302743,
-    "factor_leg_value": 57661.36536988478,
-    "sector_leg_value": 136805.40846038953
+    "portfolio_value": 185851.39523250944,
+    "factor_leg_value": 56597.78924864435,
+    "sector_leg_value": 129253.60598386508,
+    "benchmark_close": 88.91999816894531
   },
   {
     "asof": "2023-12-29",
@@ -5002,9 +5210,10 @@
         -0.08384708472567637
       ]
     ],
-    "portfolio_value": 214567.28957973688,
-    "factor_leg_value": 60843.972193974376,
-    "sector_leg_value": 153723.31738576252
+    "portfolio_value": 204959.3207520987,
+    "factor_leg_value": 59721.69221444539,
+    "sector_leg_value": 145237.6285376533,
+    "benchmark_close": 92.94000244140625
   },
   {
     "asof": "2024-01-31",
@@ -5097,9 +5306,10 @@
         -0.07457771581110773
       ]
     ],
-    "portfolio_value": 222311.62079545236,
-    "factor_leg_value": 62453.99844699073,
-    "sector_leg_value": 159857.62234846162
+    "portfolio_value": 212335.33460420664,
+    "factor_leg_value": 61302.02119154235,
+    "sector_leg_value": 151033.31341266428,
+    "benchmark_close": 93.9749984741211
   },
   {
     "asof": "2024-02-29",
@@ -5192,9 +5402,10 @@
         -0.06853960837805129
       ]
     ],
-    "portfolio_value": 243441.69333791622,
-    "factor_leg_value": 65923.66344036143,
-    "sector_leg_value": 177518.02989755478
+    "portfolio_value": 232426.5353627514,
+    "factor_leg_value": 64707.68747777213,
+    "sector_leg_value": 167718.84788497927,
+    "benchmark_close": 97.69999694824219
   },
   {
     "asof": "2024-03-28",
@@ -5287,9 +5498,10 @@
         0.013788578099729776
       ]
     ],
-    "portfolio_value": 254916.98671405524,
-    "factor_leg_value": 67711.98832919578,
-    "sector_leg_value": 187204.99838485947
+    "portfolio_value": 243334.11185488076,
+    "factor_leg_value": 66463.02633451058,
+    "sector_leg_value": 176871.08552037016,
+    "benchmark_close": 101.08000183105469
   },
   {
     "asof": "2024-04-30",
@@ -5382,9 +5594,10 @@
         -0.01921978666964852
       ]
     ],
-    "portfolio_value": 243737.9669464066,
-    "factor_leg_value": 65054.75586451431,
-    "sector_leg_value": 178683.2110818923
+    "portfolio_value": 232674.51692864625,
+    "factor_leg_value": 63854.80708656255,
+    "sector_leg_value": 168819.7098420837,
+    "benchmark_close": 99.19000244140625
   },
   {
     "asof": "2024-05-31",
@@ -5477,9 +5690,10 @@
         0.01568204670784712
       ]
     ],
-    "portfolio_value": 257956.0392090862,
-    "factor_leg_value": 67072.7377649119,
-    "sector_leg_value": 190883.30144417429
+    "portfolio_value": 246181.90926350892,
+    "factor_leg_value": 65835.56688254776,
+    "sector_leg_value": 180346.34238096114,
+    "benchmark_close": 100.12000274658203
   },
   {
     "asof": "2024-06-28",
@@ -5572,9 +5786,10 @@
         0.035480553009448634
       ]
     ],
-    "portfolio_value": 281261.19564294576,
-    "factor_leg_value": 71209.60306635115,
-    "sector_leg_value": 210051.59257659462
+    "portfolio_value": 268352.6505019669,
+    "factor_leg_value": 69896.12682556939,
+    "sector_leg_value": 198456.52367639748,
+    "benchmark_close": 104.44000244140625
   },
   {
     "asof": "2024-07-31",
@@ -5667,9 +5882,10 @@
         0.07261338706398424
       ]
     ],
-    "portfolio_value": 263952.42567928234,
-    "factor_leg_value": 69002.43325787013,
-    "sector_leg_value": 194949.99242141223
+    "portfolio_value": 251918.21647040796,
+    "factor_leg_value": 67729.66873261512,
+    "sector_leg_value": 184188.54773779283,
+    "benchmark_close": 104.12000274658203
   },
   {
     "asof": "2024-08-30",
@@ -5762,9 +5978,10 @@
         0.047976876318468475
       ]
     ],
-    "portfolio_value": 261590.5610616706,
-    "factor_leg_value": 70364.57464907477,
-    "sector_leg_value": 191225.98641259584
+    "portfolio_value": 249736.79591537867,
+    "factor_leg_value": 69066.68513678304,
+    "sector_leg_value": 180670.11077859564,
+    "benchmark_close": 103.55000305175781
   },
   {
     "asof": "2024-09-30",
@@ -5857,9 +6074,10 @@
         -0.010234169889166811
       ]
     ],
-    "portfolio_value": 267516.46776678384,
-    "factor_leg_value": 73000.56621279634,
-    "sector_leg_value": 194515.9015539875
+    "portfolio_value": 255432.4744196431,
+    "factor_leg_value": 71654.05527669714,
+    "sector_leg_value": 183778.41914294596,
+    "benchmark_close": 104.12000274658203
   },
   {
     "asof": "2024-10-31",
@@ -5952,9 +6170,10 @@
         0.0788206618407612
       ]
     ],
-    "portfolio_value": 260275.96679970628,
-    "factor_leg_value": 73505.05928227156,
-    "sector_leg_value": 186770.90751743474
+    "portfolio_value": 248610.19978996477,
+    "factor_leg_value": 72149.24286444152,
+    "sector_leg_value": 176460.95692552326,
+    "benchmark_close": 106.4800033569336
   },
   {
     "asof": "2024-11-29",
@@ -6047,9 +6266,10 @@
         0.14799685781618233
       ]
     ],
-    "portfolio_value": 263775.3862134078,
-    "factor_leg_value": 76960.85869935685,
-    "sector_leg_value": 186814.52751405095
+    "portfolio_value": 252043.46838031785,
+    "factor_leg_value": 75541.29932788304,
+    "sector_leg_value": 176502.1690524348,
+    "benchmark_close": 111.7699966430664
   },
   {
     "asof": "2024-12-31",
@@ -6142,9 +6362,10 @@
         -0.009190435529242702
       ]
     ],
-    "portfolio_value": 251378.51355670523,
-    "factor_leg_value": 74955.48708091557,
-    "sector_leg_value": 176423.02647578967
+    "portfolio_value": 240257.2070186483,
+    "factor_leg_value": 73572.91721452729,
+    "sector_leg_value": 166684.289804121,
+    "benchmark_close": 111.16000366210938
   },
   {
     "asof": "2025-01-31",
@@ -6237,9 +6458,10 @@
         0.0820018501915285
       ]
     ],
-    "portfolio_value": 267737.66952484794,
-    "factor_leg_value": 79306.76566559928,
-    "sector_leg_value": 188430.90385924868
+    "portfolio_value": 255873.2552651097,
+    "factor_leg_value": 77843.93554228077,
+    "sector_leg_value": 178029.31972282895,
+    "benchmark_close": 116.16000366210938
   },
   {
     "asof": "2025-02-28",
@@ -6332,9 +6554,10 @@
         0.02335230124032095
       ]
     ],
-    "portfolio_value": 245551.68721021787,
-    "factor_leg_value": 76796.31445764001,
-    "sector_leg_value": 168755.37275257788
+    "portfolio_value": 234819.68877299968,
+    "factor_leg_value": 75379.79013962453,
+    "sector_leg_value": 159439.89863337515,
+    "benchmark_close": 112.05000305175781
   },
   {
     "asof": "2025-03-31",
@@ -6427,9 +6650,10 @@
         -0.12960705919158588
       ]
     ],
-    "portfolio_value": 245036.81247556646,
-    "factor_leg_value": 75000.87427208816,
-    "sector_leg_value": 170035.9382034783
+    "portfolio_value": 234267.2427534619,
+    "factor_leg_value": 73617.46722932655,
+    "sector_leg_value": 160649.77552413536,
+    "benchmark_close": 105.41999816894531
   },
   {
     "asof": "2025-04-30",
@@ -6522,9 +6746,10 @@
         -0.12430423227169218
       ]
     ],
-    "portfolio_value": 244938.64956901193,
-    "factor_leg_value": 74567.0665319794,
-    "sector_leg_value": 170371.58303703254
+    "portfolio_value": 234158.55357480148,
+    "factor_leg_value": 73191.66116504754,
+    "sector_leg_value": 160966.89240975396,
+    "benchmark_close": 102.8499984741211
   },
   {
     "asof": "2025-05-30",
@@ -6617,9 +6842,10 @@
         -0.10362173038229372
       ]
     ],
-    "portfolio_value": 253756.1691510146,
-    "factor_leg_value": 78079.82123228196,
-    "sector_leg_value": 175676.34791873264
+    "portfolio_value": 242618.45104839548,
+    "factor_leg_value": 76639.62235942023,
+    "sector_leg_value": 165978.82868897525,
+    "benchmark_close": 108.18000030517578
   },
   {
     "asof": "2025-06-30",
@@ -6712,9 +6938,10 @@
         -0.14234679857103605
       ]
     ],
-    "portfolio_value": 260691.3865083696,
-    "factor_leg_value": 79372.64543302091,
-    "sector_leg_value": 181318.7410753487
+    "portfolio_value": 249218.35595053813,
+    "factor_leg_value": 77908.60014341121,
+    "sector_leg_value": 171309.75580712693,
+    "benchmark_close": 111.25
   },
   {
     "asof": "2025-07-31",
@@ -6807,9 +7034,10 @@
         -0.13065941536369818
       ]
     ],
-    "portfolio_value": 264493.6237892014,
-    "factor_leg_value": 81692.74590692445,
-    "sector_leg_value": 182800.87788227695
+    "portfolio_value": 252895.982974692,
+    "factor_leg_value": 80185.90587169793,
+    "sector_leg_value": 172710.07710299405,
+    "benchmark_close": 117.4800033569336
   },
   {
     "asof": "2025-08-29",
@@ -6902,9 +7130,10 @@
         -0.1372233400402415
       ]
     ],
-    "portfolio_value": 270367.2317942558,
-    "factor_leg_value": 81846.48979301337,
-    "sector_leg_value": 188520.74200124244
+    "portfolio_value": 258451.0126240484,
+    "factor_leg_value": 80336.81391918017,
+    "sector_leg_value": 178114.19870486823,
+    "benchmark_close": 117.31999969482422
   },
   {
     "asof": "2025-09-30",
@@ -6997,9 +7226,10 @@
         -0.09588660366870483
       ]
     ],
-    "portfolio_value": 281614.3413467596,
-    "factor_leg_value": 84606.85533514357,
-    "sector_leg_value": 197007.48601161604
+    "portfolio_value": 269178.72945025674,
+    "factor_leg_value": 83046.2639330763,
+    "sector_leg_value": 186132.46551718045,
+    "benchmark_close": 121.66000366210938
   },
   {
     "asof": "2025-10-31",
@@ -7092,9 +7322,10 @@
         -0.08831891711354312
       ]
     ],
-    "portfolio_value": 282777.9453143196,
-    "factor_leg_value": 85466.40555251032,
-    "sector_leg_value": 197311.53976180928
+    "portfolio_value": 270309.6947447443,
+    "factor_leg_value": 83889.95956426853,
+    "sector_leg_value": 186419.73518047575,
+    "benchmark_close": 127.72000122070312
   },
   {
     "asof": "2025-11-28",
@@ -7187,9 +7418,10 @@
         -0.12992155152069906
       ]
     ],
-    "portfolio_value": 277072.01066816365,
-    "factor_leg_value": 85570.35843575888,
-    "sector_leg_value": 191501.65223240474
+    "portfolio_value": 264922.55456965463,
+    "factor_leg_value": 83991.99501452451,
+    "sector_leg_value": 180930.5595551301,
+    "benchmark_close": 126.73999786376953
   },
   {
     "asof": "2025-12-31",
@@ -7282,9 +7514,10 @@
         -0.07839070573061158
       ]
     ],
-    "portfolio_value": 287860.0007146671,
-    "factor_leg_value": 89115.61547802047,
-    "sector_leg_value": 198744.38523664663
+    "portfolio_value": 275245.34511590266,
+    "factor_leg_value": 87471.8590382611,
+    "sector_leg_value": 187773.48607764157,
+    "benchmark_close": 126.66000366210938
   },
   {
     "asof": "2026-01-30",
@@ -7377,9 +7610,10 @@
         -0.10960469667003958
       ]
     ],
-    "portfolio_value": 324964.9054660446,
-    "factor_leg_value": 93197.49801546399,
-    "sector_leg_value": 231767.40745058062
+    "portfolio_value": 310452.0531087172,
+    "factor_leg_value": 91478.45038603742,
+    "sector_leg_value": 218973.60272267976,
+    "benchmark_close": 127.33999633789062
   },
   {
     "asof": "2026-02-27",
@@ -7472,9 +7706,10 @@
         -0.02269085247824798
       ]
     ],
-    "portfolio_value": 324449.4899738456,
-    "factor_leg_value": 94979.34047598735,
-    "sector_leg_value": 229470.14949785825
+    "portfolio_value": 310030.58221006545,
+    "factor_leg_value": 93227.42638423078,
+    "sector_leg_value": 216803.1558258347,
+    "benchmark_close": 131.60000610351562
   },
   {
     "asof": "2026-03-31",
@@ -7567,9 +7802,10 @@
         -0.01787127685257084
       ]
     ],
-    "portfolio_value": 295085.9932169571,
-    "factor_leg_value": 88396.94451262889,
-    "sector_leg_value": 206689.04870432816
+    "portfolio_value": 282046.03987487126,
+    "factor_leg_value": 86766.44411134372,
+    "sector_leg_value": 195279.59576352756,
+    "benchmark_close": 123.66000366210938
   },
   {
     "asof": "2026-04-30",
@@ -7662,9 +7898,10 @@
         0.04016913319238902
       ]
     ],
-    "portfolio_value": 391290.57970617875,
-    "factor_leg_value": 105218.62519928011,
-    "sector_leg_value": 286071.95450689865
+    "portfolio_value": 373558.32697685226,
+    "factor_leg_value": 103277.84532780401,
+    "sector_leg_value": 270280.4816490483,
+    "benchmark_close": 132.97999572753906
   },
   {
     "asof": "2026-05-28",
@@ -7757,8 +7994,9 @@
         0.02476253573852505
       ]
     ],
-    "portfolio_value": 480621.40610553965,
-    "factor_leg_value": 124866.09019315598,
-    "sector_leg_value": 355755.31591238367
+    "portfolio_value": 458680.1568530975,
+    "factor_leg_value": 122562.90866024945,
+    "sector_leg_value": 336117.24819284806,
+    "benchmark_close": 141.1999969482422
   }
 ]
