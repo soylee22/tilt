@@ -46,6 +46,13 @@ SECTOR_BASKET = [
 # against). Kept available; off by default.
 OVERLAY_TICKER = "SPY"
 
+# Benchmark: Vanguard FTSE All-World UCITS Acc (GBP line). Fetched and stored so
+# the dashboard can score each month's 50/50 return against a passive all-world
+# hold, but it is NEVER a pick candidate (excluded from both baskets). Note the
+# benchmark is GBP-denominated whereas the sector/factor ETFs come off yfinance
+# in USD, so a small monthly FX term sits in the comparison. Data starts 2019-07.
+BENCHMARK_TICKER = "VWRP.L"
+
 
 def factor_tickers() -> list[str]:
     return [tk for tk, _ in FACTOR_BASKET]
@@ -56,7 +63,7 @@ def sector_tickers() -> list[str]:
 
 
 def all_tickers() -> list[str]:
-    return factor_tickers() + sector_tickers() + [OVERLAY_TICKER]
+    return factor_tickers() + sector_tickers() + [OVERLAY_TICKER, BENCHMARK_TICKER]
 
 
 def name_for(ticker: str) -> str:
@@ -65,6 +72,8 @@ def name_for(ticker: str) -> str:
             return name
     if ticker == OVERLAY_TICKER:
         return "SPDR S&P 500 (overlay signal)"
+    if ticker == BENCHMARK_TICKER:
+        return "Vanguard FTSE All-World (benchmark)"
     return ticker
 
 

@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 
 from .universe import (
-    FACTOR_BASKET, SECTOR_BASKET, OVERLAY_TICKER,
+    FACTOR_BASKET, SECTOR_BASKET, OVERLAY_TICKER, BENCHMARK_TICKER,
     factor_tickers, sector_tickers,
 )
 
@@ -176,6 +176,13 @@ def backtest(
                         leg_holding[leg] = target
 
             total_nav = leg_nav["factor"] + leg_nav["sector"]
+            # Benchmark close as-of this month-end (last valid <= d). None before
+            # VWRP inception (2019-07) so the dashboard shows "—" for those months.
+            bench_close = None
+            if BENCHMARK_TICKER in prices_wide.columns:
+                bcol = prices_wide[BENCHMARK_TICKER].loc[:d].dropna()
+                if not bcol.empty:
+                    bench_close = float(bcol.iloc[-1])
             history.append({
                 "asof": d.date().isoformat(),
                 "factor_pick": picks.factor_pick,
@@ -188,6 +195,7 @@ def backtest(
                 "portfolio_value": total_nav,
                 "factor_leg_value": leg_nav["factor"],
                 "sector_leg_value": leg_nav["sector"],
+                "benchmark_close": bench_close,
             })
 
         total_nav = leg_nav["factor"] + leg_nav["sector"]

@@ -41,6 +41,46 @@ def _pct(x, signed: bool = False) -> str:
     return fmt
 
 
+def _monthly_vs_benchmark(history: list[dict]) -> tuple[dict, dict]:
+    """For each month, the 50/50 portfolio's own return vs VWRP's return.
+
+    Tilt month return = pct change in portfolio_value between consecutive rows.
+    VWRP month return = pct change in benchmark_close. Both are None for the
+    first row and for any month where the benchmark has no price yet (pre-2019-07).
+    Returns (per-asof map, summary). 'beat' is True when Tilt >= VWRP that month.
+
+    Caveat: portfolio_value is built from USD-priced ETFs while VWRP is GBP, so a
+    small monthly FX term is baked into the spread. This is a texture/honesty
+    view, not an FX-clean attribution.
+    """
+    out: dict[str, dict] = {}
+    wins = total = 0
+    excess_sum = 0.0
+    for i, h in enumerate(history):
+        tilt = vwrp = None
+        if i > 0:
+            pv0, pv1 = history[i - 1].get("portfolio_value"), h.get("portfolio_value")
+            if pv0 and pv1 and pv0 > 0:
+                tilt = pv1 / pv0 - 1.0
+            b0, b1 = history[i - 1].get("benchmark_close"), h.get("benchmark_close")
+            if b0 and b1 and b0 > 0:
+                vwrp = b1 / b0 - 1.0
+        beat = None
+        if tilt is not None and vwrp is not None:
+            beat = tilt >= vwrp
+            total += 1
+            wins += 1 if beat else 0
+            excess_sum += tilt - vwrp
+        out[h["asof"]] = {"tilt": tilt, "vwrp": vwrp, "beat": beat}
+    summary = {
+        "wins": wins,
+        "total": total,
+        "rate": (wins / total) if total else None,
+        "avg_excess": (excess_sum / total) if total else None,
+    }
+    return out, summary
+
+
 def _equity_chart_svg(history: list[dict], width: int = 1000, height: int = 320) -> str:
     if len(history) < 2:
         return '<div class="empty">Equity curve will appear once 2+ months are tracked.</div>'
@@ -117,9 +157,37 @@ def _pick_card(label: str, pick: str | None, ret_12m: float | None,
     """
 
 
+def _delta_pill(tilt, vwrp, beat) -> str:
+    """Coloured ▲/▼ pill showing this month's excess over VWRP, in pp."""
+    if tilt is None or vwrp is None or beat is None:
+        return '<span class="muted">—</span>'
+    pp = (tilt - vwrp) * 100
+    arrow = "▲" if beat else "▼"
+    cls = "win" if beat else "loss"
+    return f'<span class="pill {cls}">{arrow} {pp:+.1f}pp</span>'
+
+
 def _history_table(history: list[dict]) -> str:
     if not history:
         return '<div class="empty">History will accumulate after the first monthly run.</div>'
+    rmap, summary = _monthly_vs_benchmark(history)
+
+    if summary["total"]:
+        rate = summary["rate"] * 100
+        avg = summary["avg_excess"] * 100
+        rate_cls = "accent" if rate >= 50 else "neg"
+        avg_cls = "accent" if avg >= 0 else "neg"
+        caption = (
+            f'<div class="bm-summary">'
+            f'Beat VWRP in <strong class="{rate_cls}">{summary["wins"]} of {summary["total"]}</strong> '
+            f'months (<strong class="{rate_cls}">{rate:.0f}%</strong>). '
+            f'Average monthly excess: <strong class="{avg_cls}">{avg:+.2f}pp</strong>. '
+            f'<span class="muted">Green = the 50/50 beat a passive all-world hold that month; red = it lagged.</span>'
+            f'</div>'
+        )
+    else:
+        caption = ""
+
     rows = []
     # Reverse chronological — most recent first
     for h in reversed(history):
@@ -128,6 +196,9 @@ def _history_table(history: list[dict]) -> str:
         f_ret = h.get("factor_return_12m")
         s_ret = h.get("sector_return_12m")
         nav = h.get("portfolio_value", 0)
+        mr = rmap.get(h["asof"], {})
+        tilt, vwrp, beat = mr.get("tilt"), mr.get("vwrp"), mr.get("beat")
+        tilt_cls = "num " + ("win-num" if beat else "loss-num") if beat is not None else "num muted"
         rows.append(
             f"<tr>"
             f'<td class="muted">{h["asof"]}</td>'
@@ -136,15 +207,22 @@ def _history_table(history: list[dict]) -> str:
             f'<td><span class="tk">{s_tk}</span><span class="tkname">{name_for(s_tk) if s_tk != "CASH" else ""}</span></td>'
             f'<td class="num">{_pct(s_ret, signed=True)}</td>'
             f'<td class="num">£{nav/1000:.1f}k</td>'
+            f'<td class="{tilt_cls}">{_pct(tilt, signed=True)}</td>'
+            f'<td class="num muted">{_pct(vwrp, signed=True)}</td>'
+            f'<td class="num">{_delta_pill(tilt, vwrp, beat)}</td>'
             f"</tr>"
         )
     return f"""
+    {caption}
     <table class="history-table">
       <thead><tr>
         <th>MONTH</th>
         <th>FACTOR LEG</th><th class="right">12M</th>
         <th>SECTOR LEG</th><th class="right">12M</th>
-        <th class="right">NAV (£100k start)</th>
+        <th class="right">NAV</th>
+        <th class="right">TILT 1M</th>
+        <th class="right">VWRP 1M</th>
+        <th class="right">vs VWRP</th>
       </tr></thead>
       <tbody>{"".join(rows)}</tbody>
     </table>
@@ -420,6 +498,7 @@ def render() -> Path:
       padding: 32px 28px;
       margin-top: 20px;
       color: var(--ink);
+      overflow-x: auto;
     }}
 
     table.history-table, table.universe-table, table.persistence-table {{
@@ -457,6 +536,27 @@ def render() -> Path:
     .barwrap {{ width: 200px; }}
     .bar {{ height: 4px; background: var(--ink); border-radius: 2px; }}
     .empty {{ text-align: center; color: var(--mute); padding: 20px; font-size: 13px; }}
+
+    .bm-summary {{
+      font-size: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--hairline-lt);
+      line-height: 1.6;
+    }}
+    .win-num {{ color: var(--green); font-weight: 600; }}
+    .loss-num {{ color: #B23D3D; font-weight: 600; }}
+    .pill {{
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }}
+    .pill.win {{ color: var(--green); background: rgba(30,110,64,0.10); }}
+    .pill.loss {{ color: #B23D3D; background: rgba(178,61,61,0.10); }}
 
     .equity-card {{
       background: var(--ink);
@@ -537,7 +637,7 @@ def render() -> Path:
       </div>
     </div>
 
-    <h2>History · every monthly pick</h2>
+    <h2>History · monthly picks vs VWRP</h2>
     <div class="lightcard">
       {history_html}
     </div>
@@ -570,7 +670,7 @@ def render() -> Path:
 
     <div class="foot">
       <p>
-        <strong>Disclaimers.</strong> Educational only. Past performance does not predict future returns. The backtest assumes a Euro/GBP-denominated investor and ignores UK CGT. Slippage modelled at 5 bps round-trip.
+        <strong>Disclaimers.</strong> Educational only. Past performance does not predict future returns. The backtest assumes a Euro/GBP-denominated investor and ignores UK CGT. Slippage modelled at 5 bps round-trip. <strong>vs VWRP:</strong> the monthly comparison scores the 50/50 NAV (built from USD-priced ETFs) against VWRP.L (GBP), so a small monthly FX term sits in the spread. It is a like-for-like texture view, not an FX-clean attribution. VWRP price history starts 2019-07, so the first three months show a dash.
       </p>
       <p>
         Updated monthly via GitHub Actions. <a href="history.json">history.json</a> · <a href="https://github.com/soylee22/tilt">Source repo</a>
