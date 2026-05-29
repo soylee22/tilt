@@ -30,6 +30,7 @@ class TiltConfig:
     starting_capital: float = 100_000.0
     start: dt.date = dt.date(2019, 4, 1)  # gated by WSML.L inception + 12mo lookback
     end: dt.date | None = None
+    rebalance: str = "none"  # "none" (let legs drift), "monthly", or "annual" (each Jan)
 
 
 @dataclass
@@ -123,6 +124,15 @@ def backtest(
 ) -> dict:
     """Run the full historical backtest. Returns equity_curve + history."""
     prices_wide = long_to_wide(prices)
+    # Restrict to the LSE trading calendar. The raw union index includes
+    # US-listed SPY, which prints on UK bank holidays (e.g. 31 Aug 2020) when
+    # every .L ETF is shut. Such rows are all-NaN for the tradable universe and
+    # poison both the month-end pick (ranker sees no prices) and any 12m lookback
+    # that lands on them (e.g. 31 Aug 2021), spuriously forcing the book to cash.
+    # Dropping them makes month-end fall on the last real LSE session instead.
+    lse_cols = [c for c in prices_wide.columns if c.endswith(".L")]
+    if lse_cols:
+        prices_wide = prices_wide.loc[prices_wide[lse_cols].notna().any(axis=1)]
     end = config.end or prices_wide.index.max().date()
     rebal_dates = [d for d in last_trading_days_of_month(prices_wide.index)
                    if config.start <= d.date() <= end]
@@ -174,6 +184,33 @@ def backtest(
                         spend = leg_nav[leg] * (1 - cost)
                         leg_shares[leg] = spend / float(p)
                         leg_holding[leg] = target
+
+            # Optional rebalance of the two legs back to 50/50. Default "none"
+            # leaves the loop above untouched (legs drift, published behaviour).
+            do_rebal = config.rebalance == "monthly" or (config.rebalance == "annual" and d.month == 1)
+            if config.rebalance != "none" and do_rebal:
+                def _mtm(leg: str) -> float:
+                    tk = leg_holding[leg]
+                    if tk is None:
+                        return leg_nav[leg]
+                    p = prices_wide.loc[d, tk]
+                    if np.isnan(p):
+                        col = prices_wide[tk].loc[:d].dropna()
+                        p = col.iloc[-1] if not col.empty else np.nan
+                    return leg_shares[leg] * float(p) if not np.isnan(p) else leg_nav[leg]
+                total = _mtm("factor") + _mtm("sector")
+                for leg in ("factor", "sector"):
+                    target_val = total / 2
+                    new_val = target_val - cost * abs(target_val - _mtm(leg))  # cost on moved delta
+                    leg_nav[leg] = new_val
+                    tk = leg_holding[leg]
+                    if tk is not None:
+                        p = prices_wide.loc[d, tk]
+                        if np.isnan(p):
+                            col = prices_wide[tk].loc[:d].dropna()
+                            p = col.iloc[-1] if not col.empty else np.nan
+                        if not np.isnan(p) and p > 0:
+                            leg_shares[leg] = new_val / float(p)
 
             total_nav = leg_nav["factor"] + leg_nav["sector"]
             # Benchmark close as-of this month-end (last valid <= d). None before
