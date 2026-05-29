@@ -86,19 +86,39 @@ def _equity_chart_svg(history: list[dict], width: int = 1000, height: int = 320)
         return '<div class="empty">Equity curve will appear once 2+ months are tracked.</div>'
     dates = [pd.to_datetime(h["asof"]) for h in history]
     vals = [h["portfolio_value"] for h in history]
+
+    # VWRP buy-and-hold, indexed to the strategy NAV at the first month VWRP has
+    # a price (2019-07, its inception). Both lines therefore share that point and
+    # the gap after it is pure relative performance. None before the anchor.
+    anchor_i = next((i for i, h in enumerate(history) if h.get("benchmark_close")), None)
+    bench_vals: list[float | None] = [None] * len(history)
+    if anchor_i is not None:
+        a_close = history[anchor_i]["benchmark_close"]
+        a_nav = history[anchor_i]["portfolio_value"]
+        for i, h in enumerate(history):
+            bc = h.get("benchmark_close")
+            if bc and i >= anchor_i:
+                bench_vals[i] = a_nav * (bc / a_close)
+
     pad_l, pad_r, pad_t, pad_b = 70, 24, 28, 44
     plot_w = width - pad_l - pad_r
     plot_h = height - pad_t - pad_b
     n = len(vals)
-    vmin = min(vals)
-    vmax = max(vals)
+    present = vals + [b for b in bench_vals if b is not None]
+    vmin = min(present)
+    vmax = max(present)
     span = (vmax - vmin) or 1
-    pts = []
-    for i, v in enumerate(vals):
+
+    def _xy(i: int, v: float) -> tuple[float, float]:
         x = pad_l + i * (plot_w / (n - 1))
         y = pad_t + plot_h - ((v - vmin) / span) * plot_h
-        pts.append((x, y))
+        return x, y
+
+    pts = [_xy(i, v) for i, v in enumerate(vals)]
     polyline = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+    bench_pts = [_xy(i, b) for i, b in enumerate(bench_vals) if b is not None]
+    bench_polyline = " ".join(f"{x:.1f},{y:.1f}" for x, y in bench_pts)
+
     dots = "".join(
         f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.5" fill="currentColor"/>'
         for x, y in pts[-1:]  # only last point highlighted
@@ -119,12 +139,39 @@ def _equity_chart_svg(history: list[dict], width: int = 1000, height: int = 320)
         f'font-size="10" fill="currentColor" opacity="0.55">{dates[i].strftime("%Y-%m")}</text>'
         for i in range(0, n, step)
     )
+
+    # End-of-line labels + legend
+    bench_label = ""
+    if bench_pts:
+        bx, by = bench_pts[-1]
+        bench_label = (
+            f'<polyline fill="none" stroke="currentColor" stroke-opacity="0.45" '
+            f'stroke-width="1.3" stroke-dasharray="4 3" points="{bench_polyline}"/>'
+            f'<circle cx="{bx:.1f}" cy="{by:.1f}" r="2.5" fill="currentColor" fill-opacity="0.45"/>'
+            f'<text x="{bx-6:.1f}" y="{by-7:.1f}" text-anchor="end" font-size="10" '
+            f'fill="currentColor" opacity="0.55">VWRP £{bench_vals[-1]/1000:.0f}k</text>'
+        )
+    tx, ty = pts[-1]
+    tilt_label = (
+        f'<text x="{tx-6:.1f}" y="{ty+13:.1f}" text-anchor="end" font-size="10" '
+        f'fill="currentColor" opacity="0.85" font-weight="600">Tilt £{vals[-1]/1000:.0f}k</text>'
+    )
+    legend = (
+        f'<g transform="translate({pad_l},{pad_t-14})" font-size="10" fill="currentColor">'
+        f'<line x1="0" y1="0" x2="18" y2="0" stroke="currentColor" stroke-width="1.6"/>'
+        f'<text x="23" y="3" opacity="0.85">Tilt 50/50</text>'
+        f'<line x1="92" y1="0" x2="110" y2="0" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.3" stroke-dasharray="4 3"/>'
+        f'<text x="115" y="3" opacity="0.55">VWRP (indexed from {dates[anchor_i].strftime("%Y-%m") if anchor_i is not None else "start"})</text>'
+        f'</g>'
+    )
+
     return (
         f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
         f'preserveAspectRatio="xMidYMid meet" style="max-width:100%;height:auto;">'
         f'{"".join(y_grid)}'
+        f'{bench_label}'
         f'<polyline fill="none" stroke="currentColor" stroke-width="1.6" points="{polyline}"/>'
-        f'{dots}{x_labels}'
+        f'{dots}{tilt_label}{legend}{x_labels}'
         f'</svg>'
     )
 
@@ -351,6 +398,19 @@ def render() -> Path:
     sharpe_str = f"{metrics['sharpe']:.2f}" if metrics.get("sharpe") is not None else "—"
     dd_pct = _pct(metrics.get("max_dd"), signed=True) if metrics else "—"
     end_value_str = f"£{metrics.get('end_value', 0)/1000:.1f}k" if metrics else "—"
+
+    # VWRP buy-and-hold end value, indexed to strategy NAV at VWRP inception.
+    bench_end_str = "—"
+    bench_multiple_str = ""
+    if history:
+        ai = next((i for i, h in enumerate(history) if h.get("benchmark_close")), None)
+        if ai is not None:
+            a_close = history[ai]["benchmark_close"]
+            a_nav = history[ai]["portfolio_value"]
+            b_end = a_nav * (history[-1]["benchmark_close"] / a_close)
+            bench_end_str = f"£{b_end/1000:.1f}k"
+            if b_end > 0:
+                bench_multiple_str = f" Tilt ended <strong>{history[-1]['portfolio_value']/b_end:.2f}×</strong> the VWRP hold over the same window."
 
     asof = latest["asof"] if latest else "—"
 
@@ -626,14 +686,15 @@ def render() -> Path:
       {sector_card}
     </div>
 
-    <h2>Equity curve · £100k start</h2>
+    <h2>Equity curve · Tilt vs VWRP · £100k start</h2>
     <div class="equity-card">
       {equity_svg}
       <div style="margin-top:18px;font-size:12px;color:rgba(245,243,238,0.55);">
         Monthly NAV from <strong>{history[0]["asof"] if history else "—"}</strong>
         to <strong>{history[-1]["asof"] if history else "—"}</strong>.
-        Realised drawdown: <strong>{dd_pct}</strong>. End value:
-        <strong>{end_value_str}</strong>.
+        Realised drawdown: <strong>{dd_pct}</strong>. Tilt end value:
+        <strong>{end_value_str}</strong> · VWRP (indexed from its 2019-07 inception):
+        <strong>{bench_end_str}</strong>.{bench_multiple_str}
       </div>
     </div>
 
