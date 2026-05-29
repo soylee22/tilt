@@ -92,7 +92,7 @@ def _equity_chart_svg(history: list[dict], width: int = 1000, height: int = 320)
 def _pick_card(label: str, pick: str | None, ret_12m: float | None,
                rankings: list[list], top_n: int = 5) -> str:
     if pick is None:
-        body = '<div class="ticker cash">CASH</div><div class="meta muted">overlay out-of-market</div>'
+        body = '<div class="ticker cash">CASH</div><div class="meta muted">drawdown filter: trend broken</div>'
     else:
         body = (
             f'<div class="ticker">{pick}</div>'
