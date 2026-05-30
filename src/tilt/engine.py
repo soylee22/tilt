@@ -1,11 +1,22 @@
 """Rotation engine — picks today's two leaders + runs the backtest.
 
 Algorithm per Antonacci / MarketFighter:
-  1. Each month-end: for each basket, compute every member's 12-month total
-     return. Pick the single member with the highest return.
-  2. Hold both picks 50/50 for the next month.
-  3. (Optional, off by default) overlay: if SPY closed below its 10-month
-     SMA at month-end, that leg goes to cash next month instead.
+  1. RELATIVE momentum: each month-end, for each basket compute every member's
+     12-month total return and pick the single highest (the leader).
+  2. ABSOLUTE momentum (the per-leg drawdown filter, ON by default): a leg is
+     only held if its leader's OWN trend is intact, i.e. its price is not below
+     its own 10-month SMA for `drawdown_confirm_months` consecutive month-ends.
+     If the leader's trend has broken, that leg holds CASH instead. The two legs
+     decide independently, so the book holds 0, 1, or 2 ETFs.
+  3. Hold the resulting picks 50/50 (let-it-ride) for the next month.
+  4. (Optional, off by default) market overlay: a single SPY 10-month SMA gate
+     that takes the WHOLE book to cash. Coarser than the per-leg filter; left
+     off because the per-leg filter is the better-behaved seatbelt.
+
+Why two momentum tests? Relative momentum says "which is strongest"; absolute
+momentum says "is the strongest actually worth holding, or is everything
+falling?". Relative alone always stays invested in the least-bad option, which
+is what rides a broad bear market down. The absolute leg is the brake.
 """
 from __future__ import annotations
 
@@ -25,7 +36,13 @@ from .universe import (
 @dataclass
 class TiltConfig:
     lookback_months: int = 12
-    overlay_sma_months: int | None = None  # off by default; set 10 for Faber-style overlay
+    # Per-leg drawdown filter (absolute momentum). ON by default. Each leg's
+    # chosen ETF is moved to cash if it closes below its own SMA this many months.
+    drawdown_sma_months: int | None = 10      # None disables the per-leg filter
+    drawdown_confirm_months: int = 2          # consecutive months below SMA before exiting (anti-whipsaw)
+    # Market-wide overlay (a single SPY SMA gate for the whole book). OFF; the
+    # per-leg filter above is preferred.
+    overlay_sma_months: int | None = None
     transaction_cost_bps: float = 5.0
     starting_capital: float = 100_000.0
     start: dt.date = dt.date(2019, 4, 1)  # gated by WSML.L inception + 12mo lookback
@@ -78,14 +95,44 @@ def overlay_in_market(spy: pd.Series, asof: pd.Timestamp, sma_months: int) -> bo
     return today > sma
 
 
+def leg_drawdown_to_cash(
+    prices_wide: pd.DataFrame,
+    ticker: str,
+    asof: pd.Timestamp,
+    sma_months: int,
+    confirm_months: int,
+) -> bool:
+    """Per-leg absolute-momentum gate. Returns True if this leg should hold CASH.
+
+    The chosen ETF is forced to cash only when its OWN month-end close has been
+    below its OWN `sma_months`-month moving average for `confirm_months`
+    consecutive months. The confirmation window is the anti-whipsaw: one month
+    poking below the line does nothing; the trend has to genuinely break and stay
+    broken before we step aside. Fail-open: if there is not enough history to
+    judge, stay invested.
+    """
+    s = prices_wide[ticker].loc[:asof].dropna()
+    if s.empty:
+        return False
+    monthly = s.resample("ME").last()
+    if len(monthly) < sma_months + confirm_months:
+        return False  # not enough history -> stay invested
+    sma = monthly.rolling(sma_months).mean()
+    below_last = (monthly < sma).iloc[-confirm_months:]
+    return bool(below_last.all())
+
+
 def compute_pick(
     prices_wide: pd.DataFrame,
     asof: pd.Timestamp,
     *,
     lookback_months: int = 12,
+    drawdown_sma_months: int | None = 10,
+    drawdown_confirm_months: int = 2,
     overlay_sma_months: int | None = None,
 ) -> TiltResult:
     """Compute the strategy's pick at a specific month-end."""
+    # Optional market-wide overlay (whole book to cash). Off by default.
     in_market = True
     if overlay_sma_months and OVERLAY_TICKER in prices_wide.columns:
         in_market = overlay_in_market(prices_wide[OVERLAY_TICKER], asof, overlay_sma_months)
@@ -101,10 +148,25 @@ def compute_pick(
     factor_rk = _rank(factor_tickers())
     sector_rk = _rank(sector_tickers())
 
+    # Step 1: relative momentum picks each leg's leader.
     factor_pick = factor_rk[0][0] if (in_market and factor_rk) else None
     factor_ret = factor_rk[0][1] if (in_market and factor_rk) else None
     sector_pick = sector_rk[0][0] if (in_market and sector_rk) else None
     sector_ret = sector_rk[0][1] if (in_market and sector_rk) else None
+
+    # Step 2: per-leg absolute-momentum filter. If a leg's leader's own trend
+    # has broken (below its SMA for `confirm` consecutive months), that leg
+    # holds cash. Legs are judged independently, so one can be in while the
+    # other is out (e.g. Energy held while factors went to cash in 2022).
+    if drawdown_sma_months:
+        if factor_pick is not None and leg_drawdown_to_cash(
+            prices_wide, factor_pick, asof, drawdown_sma_months, drawdown_confirm_months
+        ):
+            factor_pick, factor_ret = None, None
+        if sector_pick is not None and leg_drawdown_to_cash(
+            prices_wide, sector_pick, asof, drawdown_sma_months, drawdown_confirm_months
+        ):
+            sector_pick, sector_ret = None, None
 
     return TiltResult(
         asof=asof.date(),
@@ -165,6 +227,8 @@ def backtest(
         if d in rebal_set:
             picks = compute_pick(prices_wide, d,
                                  lookback_months=config.lookback_months,
+                                 drawdown_sma_months=config.drawdown_sma_months,
+                                 drawdown_confirm_months=config.drawdown_confirm_months,
                                  overlay_sma_months=config.overlay_sma_months)
             for leg, target in (("factor", picks.factor_pick), ("sector", picks.sector_pick)):
                 current = leg_holding[leg]

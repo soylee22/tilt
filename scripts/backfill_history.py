@@ -26,7 +26,9 @@ def main() -> None:
     prices = load_prices()
     cfg = TiltConfig(
         start=dt.date(2019, 4, 1),
-        overlay_sma_months=None,
+        drawdown_sma_months=10,       # per-leg drawdown filter ON
+        drawdown_confirm_months=2,
+        overlay_sma_months=None,      # market-wide overlay OFF
         starting_capital=100_000.0,
     )
     print(f"Backtesting from {cfg.start} to today...")

@@ -179,7 +179,7 @@ def _equity_chart_svg(history: list[dict], width: int = 1000, height: int = 320)
 def _pick_card(label: str, pick: str | None, ret_12m: float | None,
                rankings: list[list], top_n: int = 5) -> str:
     if pick is None:
-        body = '<div class="ticker cash">CASH</div><div class="meta muted">overlay out-of-market</div>'
+        body = '<div class="ticker cash">CASH</div><div class="meta muted">drawdown filter: trend broken</div>'
     else:
         body = (
             f'<div class="ticker">{pick}</div>'
@@ -719,12 +719,19 @@ def render() -> Path:
         <li>At each month-end close, compute every ETF's <strong>12-month total return</strong>.</li>
         <li>From the <strong>factor basket</strong>, pick the single ETF with the highest 12m return.</li>
         <li>From the <strong>sector basket</strong>, pick the single ETF with the highest 12m return.</li>
-        <li>Hold both <strong>50/50</strong> for the next month. If a pick is unchanged from last month, no trade.</li>
-        <li>Repeat. No discretion, no opinion, no Stage 2 gates, no composite ranker. Pure relative momentum.</li>
+        <li><strong>Drawdown filter (per leg).</strong> Hold a pick only while its own price is above its 10-month SMA (confirmed 2 months). If the trend breaks, that leg goes to <strong>CASH</strong> instead of riding it down. That is why a <span class="tk">CASH</span> row appears in the history. Legs are judged independently, so the book can hold 2, 1, or 0 ETFs.</li>
+        <li>Hold the surviving picks <strong>50/50</strong> for the next month. If a pick is unchanged, no trade.</li>
+        <li>Repeat. No Stage 2 gates, no composite ranker.</li>
       </ol>
       <p class="muted small" style="margin-top:14px;max-width:720px;">
+        <strong>Two kinds of momentum.</strong> <em>Relative</em> momentum picks <em>what</em> to hold (the strongest in each basket). <em>Absolute</em> momentum (step 4) decides <em>whether</em> to hold it at all, sitting out the slow grinding bears that ride relative momentum down.
+      </p>
+      <p class="muted small" style="margin-top:10px;max-width:720px;">
+        <strong>The filter is honest insurance, not free alpha.</strong> In a bull market it is a dead heat (stays ~96&#37; invested, changes returns by a whisker). It earns its keep in one regime only, a slow correlated bear: on a 2000-26 reconstruction it cut the 2008 loss from &minus;32&#37; to &minus;6&#37; while keeping the +38&#37; 2022 energy run. It does <em>not</em> fully dodge a dispersed bear (dot-com) or a one-month crash (Covid). We run it anyway because the cover is near-free in normal years.
+      </p>
+      <p class="muted small" style="margin-top:10px;max-width:720px;">
         Lineage: Antonacci Dual Momentum + Faber Tactical Asset Allocation + MarketFighter Substack.
-        Backtested 2019-04 to 2026-05 over the 20-ETF universe above: <strong>23.6% CAGR, Sharpe 1.02, max DD -31%</strong>.
+        Backtested 2019-04 to 2026-05 over the 20-ETF universe above, as run (filter ON): <strong>23.6&#37; CAGR, Sharpe 1.02, max DD &minus;31&#37;</strong>.
         Forward returns will be lower. Survivorship bias: zero (this is index-tracking ETFs not individual stocks).
       </p>
     </div>
