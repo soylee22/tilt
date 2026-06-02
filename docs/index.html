@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tilt · ETF rotation by 12-month momentum</title>
+  <title>Tilt · ETF rotation by 12-minus-1-month momentum</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -239,7 +239,8 @@
     <p class="lede">
       Monthly rotation between a factor basket (8 ETFs) and a sector basket (12 ETFs).
       Each month-end, the strategy picks the single ETF in each basket with the highest
-      12-month total return. Hold both 50/50. Repeat. All ETFs are LSE-listed UCITS,
+      <strong>12-minus-1-month</strong> total return (the 12 months ending one month ago,
+      skipping the latest month). Hold both 50/50. Repeat. All ETFs are LSE-listed UCITS,
       Trading 212 accessible.
     </p>
 
@@ -264,25 +265,28 @@
       </div>
     </div>
 
-    <h2>Today's picks</h2>
+    <h2>This month's picks &amp; full league table</h2>
+    <p class="muted small" style="margin-top:-6px;margin-bottom:14px;max-width:720px;">
+      Every ETF in each basket ranked by 12-1 momentum for 2026-06-01. The highlighted row is the pick (top of the basket, unless its trend has broken, in which case the leg holds CASH).
+    </p>
     <div class="picks">
       
     <div class="pick-card">
       <div class="leg-label">FACTOR LEG</div>
-      <div class="ticker">IUVL.L</div><div class="name">iShares Edge MSCI USA Value</div><div class="meta">12-month return: <strong class="accent">+60.6%</strong></div>
+      <div class="ticker">IUVL.L</div><div class="name">iShares Edge MSCI USA Value</div><div class="meta">12-1 month return: <strong class="accent">+60.6%</strong></div>
       <table class="runners">
-        <thead><tr><th>#</th><th>Ticker</th><th class="right">12M return</th></tr></thead>
-        <tbody><tr><td class="rank">1</td><td><span class="tk">IUVL.L</span></td><td class="num accent">+60.6%</td></tr><tr><td class="rank">2</td><td><span class="tk">WSML.L</span></td><td class="num accent">+29.7%</td></tr><tr><td class="rank">3</td><td><span class="tk">CUS1.L</span></td><td class="num accent">+28.7%</td></tr><tr><td class="rank">4</td><td><span class="tk">IEVL.L</span></td><td class="num accent">+27.9%</td></tr><tr><td class="rank">5</td><td><span class="tk">IUMO.L</span></td><td class="num accent">+23.1%</td></tr></tbody>
+        <thead><tr><th>#</th><th>ETF (this month's league)</th><th class="right">12-1 mo</th></tr></thead>
+        <tbody><tr style="background:rgba(212,160,23,0.12);"><td class="rank">1</td><td><span class="tk">IUVL.L</span> <span class="muted" style="font-size:11px;">iShares Edge MSCI USA Value</span></td><td class="num accent">+60.6%</td></tr><tr style=""><td class="rank">2</td><td><span class="tk">WSML.L</span> <span class="muted" style="font-size:11px;">iShares MSCI World Small Cap</span></td><td class="num accent">+29.7%</td></tr><tr style=""><td class="rank">3</td><td><span class="tk">CUS1.L</span> <span class="muted" style="font-size:11px;">iShares S&P 600 Small Cap (USA)</span></td><td class="num accent">+28.7%</td></tr><tr style=""><td class="rank">4</td><td><span class="tk">IEVL.L</span> <span class="muted" style="font-size:11px;">iShares Edge MSCI Europe Value</span></td><td class="num accent">+27.9%</td></tr><tr style=""><td class="rank">5</td><td><span class="tk">IUMO.L</span> <span class="muted" style="font-size:11px;">iShares Edge MSCI USA Momentum</span></td><td class="num accent">+23.1%</td></tr><tr style=""><td class="rank">6</td><td><span class="tk">IEMO.L</span> <span class="muted" style="font-size:11px;">iShares Edge MSCI Europe Momentum</span></td><td class="num accent">+19.0%</td></tr><tr style=""><td class="rank">7</td><td><span class="tk">IUQA.L</span> <span class="muted" style="font-size:11px;">iShares Edge MSCI USA Quality</span></td><td class="num accent">+18.8%</td></tr><tr style=""><td class="rank">8</td><td><span class="tk">IEQU.L</span> <span class="muted" style="font-size:11px;">iShares Edge MSCI Europe Quality</span></td><td class="num accent">+8.9%</td></tr></tbody>
       </table>
     </div>
     
       
     <div class="pick-card">
       <div class="leg-label">SECTOR LEG</div>
-      <div class="ticker">SMH.L</div><div class="name">VanEck Semiconductor</div><div class="meta">12-month return: <strong class="accent">+123.3%</strong></div>
+      <div class="ticker">SMH.L</div><div class="name">VanEck Semiconductor</div><div class="meta">12-1 month return: <strong class="accent">+123.3%</strong></div>
       <table class="runners">
-        <thead><tr><th>#</th><th>Ticker</th><th class="right">12M return</th></tr></thead>
-        <tbody><tr><td class="rank">1</td><td><span class="tk">SMH.L</span></td><td class="num accent">+123.3%</td></tr><tr><td class="rank">2</td><td><span class="tk">IUES.L</span></td><td class="num accent">+48.8%</td></tr><tr><td class="rank">3</td><td><span class="tk">IUIT.L</span></td><td class="num accent">+36.9%</td></tr><tr><td class="rank">4</td><td><span class="tk">IUCM.L</span></td><td class="num accent">+27.7%</td></tr><tr><td class="rank">5</td><td><span class="tk">IUIS.L</span></td><td class="num accent">+22.9%</td></tr></tbody>
+        <thead><tr><th>#</th><th>ETF (this month's league)</th><th class="right">12-1 mo</th></tr></thead>
+        <tbody><tr style="background:rgba(212,160,23,0.12);"><td class="rank">1</td><td><span class="tk">SMH.L</span> <span class="muted" style="font-size:11px;">VanEck Semiconductor</span></td><td class="num accent">+123.3%</td></tr><tr style=""><td class="rank">2</td><td><span class="tk">IUES.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Energy</span></td><td class="num accent">+48.8%</td></tr><tr style=""><td class="rank">3</td><td><span class="tk">IUIT.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 IT</span></td><td class="num accent">+36.9%</td></tr><tr style=""><td class="rank">4</td><td><span class="tk">IUCM.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Communication Services</span></td><td class="num accent">+27.7%</td></tr><tr style=""><td class="rank">5</td><td><span class="tk">IUIS.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Industrials</span></td><td class="num accent">+22.9%</td></tr><tr style=""><td class="rank">6</td><td><span class="tk">IUMS.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Materials</span></td><td class="num accent">+20.7%</td></tr><tr style=""><td class="rank">7</td><td><span class="tk">IUUS.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Utilities</span></td><td class="num accent">+18.6%</td></tr><tr style=""><td class="rank">8</td><td><span class="tk">IUCD.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Cons Discretionary</span></td><td class="num accent">+13.3%</td></tr><tr style=""><td class="rank">9</td><td><span class="tk">IUSP.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Real Estate</span></td><td class="num accent">+10.4%</td></tr><tr style=""><td class="rank">10</td><td><span class="tk">IHCU.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Health Care</span></td><td class="num accent">+10.1%</td></tr><tr style=""><td class="rank">11</td><td><span class="tk">IUCS.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Cons Staples</span></td><td class="num accent">+6.7%</td></tr><tr style=""><td class="rank">12</td><td><span class="tk">IUFS.L</span> <span class="muted" style="font-size:11px;">iShares S&P 500 Financials</span></td><td class="num accent">+4.6%</td></tr></tbody>
       </table>
     </div>
     
@@ -354,9 +358,9 @@
     <h2>How it works</h2>
     <div class="lightcard method">
       <ol>
-        <li>At each month-end close, compute every ETF's <strong>12-month total return</strong>.</li>
-        <li>From the <strong>factor basket</strong>, pick the single ETF with the highest 12m return.</li>
-        <li>From the <strong>sector basket</strong>, pick the single ETF with the highest 12m return.</li>
+        <li>At each month-end close, compute every ETF's <strong>12-minus-1-month total return</strong> (the 12 months ending one month ago; the most recent month is skipped to avoid short-term reversal, the Jegadeesh-Titman convention).</li>
+        <li>From the <strong>factor basket</strong>, pick the single ETF with the highest 12-1 return.</li>
+        <li>From the <strong>sector basket</strong>, pick the single ETF with the highest 12-1 return.</li>
         <li><strong>Drawdown filter (per leg).</strong> Hold a pick only while its own price is above its 10-month SMA (confirmed 2 months). If the trend breaks, that leg goes to <strong>CASH</strong> instead of riding it down. That is why a <span class="tk">CASH</span> row appears in the history. Legs are judged independently, so the book can hold 2, 1, or 0 ETFs.</li>
         <li>Hold the surviving picks <strong>50/50</strong> for the next month. If a pick is unchanged, no trade.</li>
         <li>Repeat. No Stage 2 gates, no composite ranker.</li>
@@ -369,7 +373,7 @@
       </p>
       <p class="muted small" style="margin-top:10px;max-width:720px;">
         Lineage: Antonacci Dual Momentum + Faber Tactical Asset Allocation + MarketFighter Substack.
-        Backtested 2019-04 to 2026-05 over the 20-ETF universe above, as run (filter ON): <strong>23.6&#37; CAGR, Sharpe 1.02, max DD &minus;31&#37;</strong>.
+        Backtested 2019-04 to 2026-06 over the 20-ETF universe above, as run (12-1 momentum, filter ON): <strong>24.4&#37; CAGR, Sharpe 1.04, max DD &minus;31.4&#37;</strong>.
         Forward returns will be lower. Survivorship bias: zero (this is index-tracking ETFs not individual stocks).
       </p>
     </div>

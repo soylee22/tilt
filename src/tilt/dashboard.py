@@ -177,27 +177,33 @@ def _equity_chart_svg(history: list[dict], width: int = 1000, height: int = 320)
 
 
 def _pick_card(label: str, pick: str | None, ret_12m: float | None,
-               rankings: list[list], top_n: int = 5) -> str:
+               rankings: list[list], top_n: int | None = None) -> str:
+    """Full league table for the bucket this month: every ETF ranked by 12-1
+    momentum, the pick highlighted. top_n=None shows the whole basket."""
     if pick is None:
         body = '<div class="ticker cash">CASH</div><div class="meta muted">drawdown filter: trend broken</div>'
     else:
         body = (
             f'<div class="ticker">{pick}</div>'
             f'<div class="name">{name_for(pick)}</div>'
-            f'<div class="meta">12-month return: '
+            f'<div class="meta">12-1 month return: '
             f'<strong class="accent">{_pct(ret_12m, signed=True)}</strong></div>'
         )
+    rows = rankings if top_n is None else rankings[:top_n]
     runners = "".join(
-        f'<tr><td class="rank">{i+1}</td><td><span class="tk">{tk}</span></td>'
+        f'<tr style="{"background:rgba(212,160,23,0.12);" if tk == pick else ""}">'
+        f'<td class="rank">{i+1}</td>'
+        f'<td><span class="tk">{tk}</span> '
+        f'<span class="muted" style="font-size:11px;">{name_for(tk)}</span></td>'
         f'<td class="num {"accent" if r>=0 else "neg"}">{_pct(r, signed=True)}</td></tr>'
-        for i, (tk, r) in enumerate(rankings[:top_n])
+        for i, (tk, r) in enumerate(rows)
     )
     return f"""
     <div class="pick-card">
       <div class="leg-label">{label}</div>
       {body}
       <table class="runners">
-        <thead><tr><th>#</th><th>Ticker</th><th class="right">12M return</th></tr></thead>
+        <thead><tr><th>#</th><th>ETF (this month's league)</th><th class="right">12-1 mo</th></tr></thead>
         <tbody>{runners}</tbody>
       </table>
     </div>
@@ -419,7 +425,7 @@ def render() -> Path:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tilt · ETF rotation by 12-month momentum</title>
+  <title>Tilt · ETF rotation by 12-minus-1-month momentum</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -655,7 +661,8 @@ def render() -> Path:
     <p class="lede">
       Monthly rotation between a factor basket (8 ETFs) and a sector basket (12 ETFs).
       Each month-end, the strategy picks the single ETF in each basket with the highest
-      12-month total return. Hold both 50/50. Repeat. All ETFs are LSE-listed UCITS,
+      <strong>12-minus-1-month</strong> total return (the 12 months ending one month ago,
+      skipping the latest month). Hold both 50/50. Repeat. All ETFs are LSE-listed UCITS,
       Trading 212 accessible.
     </p>
 
@@ -680,7 +687,10 @@ def render() -> Path:
       </div>
     </div>
 
-    <h2>Today's picks</h2>
+    <h2>This month's picks &amp; full league table</h2>
+    <p class="muted small" style="margin-top:-6px;margin-bottom:14px;max-width:720px;">
+      Every ETF in each basket ranked by 12-1 momentum for {asof}. The highlighted row is the pick (top of the basket, unless its trend has broken, in which case the leg holds CASH).
+    </p>
     <div class="picks">
       {factor_card}
       {sector_card}
@@ -716,9 +726,9 @@ def render() -> Path:
     <h2>How it works</h2>
     <div class="lightcard method">
       <ol>
-        <li>At each month-end close, compute every ETF's <strong>12-month total return</strong>.</li>
-        <li>From the <strong>factor basket</strong>, pick the single ETF with the highest 12m return.</li>
-        <li>From the <strong>sector basket</strong>, pick the single ETF with the highest 12m return.</li>
+        <li>At each month-end close, compute every ETF's <strong>12-minus-1-month total return</strong> (the 12 months ending one month ago; the most recent month is skipped to avoid short-term reversal, the Jegadeesh-Titman convention).</li>
+        <li>From the <strong>factor basket</strong>, pick the single ETF with the highest 12-1 return.</li>
+        <li>From the <strong>sector basket</strong>, pick the single ETF with the highest 12-1 return.</li>
         <li><strong>Drawdown filter (per leg).</strong> Hold a pick only while its own price is above its 10-month SMA (confirmed 2 months). If the trend breaks, that leg goes to <strong>CASH</strong> instead of riding it down. That is why a <span class="tk">CASH</span> row appears in the history. Legs are judged independently, so the book can hold 2, 1, or 0 ETFs.</li>
         <li>Hold the surviving picks <strong>50/50</strong> for the next month. If a pick is unchanged, no trade.</li>
         <li>Repeat. No Stage 2 gates, no composite ranker.</li>
@@ -731,7 +741,7 @@ def render() -> Path:
       </p>
       <p class="muted small" style="margin-top:10px;max-width:720px;">
         Lineage: Antonacci Dual Momentum + Faber Tactical Asset Allocation + MarketFighter Substack.
-        Backtested 2019-04 to 2026-05 over the 20-ETF universe above, as run (filter ON): <strong>23.6&#37; CAGR, Sharpe 1.02, max DD &minus;31&#37;</strong>.
+        Backtested 2019-04 to 2026-06 over the 20-ETF universe above, as run (12-1 momentum, filter ON): <strong>24.4&#37; CAGR, Sharpe 1.04, max DD &minus;31.4&#37;</strong>.
         Forward returns will be lower. Survivorship bias: zero (this is index-tracking ETFs not individual stocks).
       </p>
     </div>
