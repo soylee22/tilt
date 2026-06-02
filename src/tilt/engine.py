@@ -36,6 +36,7 @@ from .universe import (
 @dataclass
 class TiltConfig:
     lookback_months: int = 12
+    skip_recent_months: int = 1  # Jegadeesh-Titman 12-minus-1 momentum: skip the most recent month (LIVE default since 2026-06-02, evidence-based). 0 = plain trailing (the old published spec).
     # Per-leg drawdown filter (absolute momentum). ON by default. Each leg's
     # chosen ETF is moved to cash if it closes below its own SMA this many months.
     drawdown_sma_months: int | None = 10      # None disables the per-leg filter
@@ -73,17 +74,27 @@ def last_trading_days_of_month(dates: pd.DatetimeIndex) -> list[pd.Timestamp]:
     return sorted(s.groupby([dates.year, dates.month]).last().tolist())
 
 
-def trailing_return(prices_wide: pd.DataFrame, asof: pd.Timestamp, months: int) -> pd.Series:
+def trailing_return(prices_wide: pd.DataFrame, asof: pd.Timestamp, months: int,
+                    skip_recent_months: int = 0) -> pd.Series:
     valid = prices_wide.index[prices_wide.index <= asof]
     if len(valid) == 0:
         return pd.Series(dtype=float)
     today = valid[-1]
+    # End of the measurement window. skip_recent_months>0 gives Jegadeesh-Titman
+    # "12-minus-N" momentum: the numerator is the close N months ago, so the most
+    # recent N months (which carry a short-term reversal effect) are excluded.
+    # skip=0 reproduces plain trailing momentum and the published behaviour exactly.
+    end_target = today - pd.DateOffset(months=skip_recent_months)
+    end_slice = prices_wide.index[prices_wide.index <= end_target]
+    if len(end_slice) == 0:
+        return pd.Series(dtype=float)
+    end_date = end_slice[-1]
     target = today - pd.DateOffset(months=months)
     earlier = prices_wide.index[prices_wide.index <= target]
     if len(earlier) == 0:
         return pd.Series(dtype=float)
     earlier_date = earlier[-1]
-    return prices_wide.loc[today] / prices_wide.loc[earlier_date] - 1.0
+    return prices_wide.loc[end_date] / prices_wide.loc[earlier_date] - 1.0
 
 
 def overlay_in_market(spy: pd.Series, asof: pd.Timestamp, sma_months: int) -> bool:
@@ -127,6 +138,7 @@ def compute_pick(
     asof: pd.Timestamp,
     *,
     lookback_months: int = 12,
+    skip_recent_months: int = 0,
     drawdown_sma_months: int | None = 10,
     drawdown_confirm_months: int = 2,
     overlay_sma_months: int | None = None,
@@ -141,7 +153,7 @@ def compute_pick(
         cols = [t for t in basket_tickers if t in prices_wide.columns]
         if not cols:
             return []
-        rets = trailing_return(prices_wide[cols], asof, lookback_months).dropna()
+        rets = trailing_return(prices_wide[cols], asof, lookback_months, skip_recent_months).dropna()
         rets = rets.sort_values(ascending=False)
         return [(str(t), float(r)) for t, r in rets.items()]
 
@@ -227,6 +239,7 @@ def backtest(
         if d in rebal_set:
             picks = compute_pick(prices_wide, d,
                                  lookback_months=config.lookback_months,
+                                 skip_recent_months=config.skip_recent_months,
                                  drawdown_sma_months=config.drawdown_sma_months,
                                  drawdown_confirm_months=config.drawdown_confirm_months,
                                  overlay_sma_months=config.overlay_sma_months)

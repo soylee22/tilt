@@ -1,6 +1,6 @@
 # Tilt
 
-Monthly ETF rotation by 12-month momentum. Two picks, one signal.
+Monthly ETF rotation by 12-minus-1-month momentum (skip the most recent month). Two picks, one signal.
 
 **Live dashboard:** [soylee22.github.io/tilt](https://soylee22.github.io/tilt/)
 
@@ -8,7 +8,7 @@ Monthly ETF rotation by 12-month momentum. Two picks, one signal.
 
 At each month-end close:
 
-1. Compute every ETF's 12-month total return.
+1. Compute every ETF's 12-minus-1-month total return (the 12 months ending one month ago; the most recent month is skipped to avoid short-term reversal, the Jegadeesh-Titman convention).
 2. From the **factor basket** (8 ETFs), pick the one with the highest 12m return.
 3. From the **sector basket** (12 ETFs), pick the one with the highest 12m return.
 4. **Drawdown filter (per leg).** Hold the pick only if its own price is above its 10-month SMA (confirmed 2 months). If its trend has broken, that leg sits in **cash** instead of riding it down. Legs are judged independently, so the book holds 2, 1, or 0 ETFs.
