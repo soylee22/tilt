@@ -44,6 +44,11 @@ class TiltConfig:
     # Market-wide overlay (a single SPY SMA gate for the whole book). OFF; the
     # per-leg filter above is preferred.
     overlay_sma_months: int | None = None
+    # Defensive sleeve (GEM-style out-asset). If a leg's equity pick is filtered
+    # to cash, rotate into the best of these by skip-month momentum, gated by its
+    # own trend (won't hold a falling bond), instead of sitting in cash. ()=off
+    # (live default; an experiment, see outputs/2026-06-02-marketfighter-replication).
+    defensive_tickers: tuple[str, ...] = ()
     transaction_cost_bps: float = 5.0
     starting_capital: float = 100_000.0
     start: dt.date = dt.date(2019, 4, 1)  # gated by WSML.L inception + 12mo lookback
@@ -142,6 +147,7 @@ def compute_pick(
     drawdown_sma_months: int | None = 10,
     drawdown_confirm_months: int = 2,
     overlay_sma_months: int | None = None,
+    defensive_tickers: tuple[str, ...] = (),
 ) -> TiltResult:
     """Compute the strategy's pick at a specific month-end."""
     # Optional market-wide overlay (whole book to cash). Off by default.
@@ -179,6 +185,28 @@ def compute_pick(
             prices_wide, sector_pick, asof, drawdown_sma_months, drawdown_confirm_months
         ):
             sector_pick, sector_ret = None, None
+
+    # Defensive sleeve: a leg filtered to cash rotates into the best defensive
+    # asset whose OWN trend is up (skip-month momentum rank, gated by its own SMA),
+    # instead of holding cash. GEM-style out-asset. Off unless defensive_tickers set.
+    if defensive_tickers and in_market:
+        def _best_defensive() -> tuple[str | None, float | None]:
+            cols = [t for t in defensive_tickers if t in prices_wide.columns]
+            if not cols:
+                return None, None
+            rr = trailing_return(prices_wide[cols], asof, lookback_months,
+                                 skip_recent_months).dropna().sort_values(ascending=False)
+            for t, r in rr.items():
+                if drawdown_sma_months and leg_drawdown_to_cash(
+                    prices_wide, str(t), asof, drawdown_sma_months, drawdown_confirm_months
+                ):
+                    continue  # skip a defensive that is itself in a downtrend
+                return str(t), float(r)
+            return None, None
+        if factor_pick is None:
+            factor_pick, factor_ret = _best_defensive()
+        if sector_pick is None:
+            sector_pick, sector_ret = _best_defensive()
 
     return TiltResult(
         asof=asof.date(),
@@ -242,7 +270,8 @@ def backtest(
                                  skip_recent_months=config.skip_recent_months,
                                  drawdown_sma_months=config.drawdown_sma_months,
                                  drawdown_confirm_months=config.drawdown_confirm_months,
-                                 overlay_sma_months=config.overlay_sma_months)
+                                 overlay_sma_months=config.overlay_sma_months,
+                                 defensive_tickers=config.defensive_tickers)
             for leg, target in (("factor", picks.factor_pick), ("sector", picks.sector_pick)):
                 current = leg_holding[leg]
                 if target == current:
