@@ -659,7 +659,7 @@ def render() -> Path:
     <span class="chip">TILT · ETF ROTATION</span>
     <h1>Two ETFs. One signal.<br/>Every month.</h1>
     <p class="lede">
-      Monthly rotation between a factor basket (8 ETFs) and a sector basket (12 ETFs).
+      Monthly rotation between a factor basket ({len(FACTOR_BASKET)} ETFs) and a sector basket ({len(SECTOR_BASKET)} ETFs).
       Each month-end, the strategy picks the single ETF in each basket with the highest
       <strong>12-minus-1-month</strong> total return (the 12 months ending one month ago,
       skipping the latest month). Hold both 50/50. Repeat. All ETFs are LSE-listed UCITS,
@@ -718,7 +718,7 @@ def render() -> Path:
       {persistence_html}
     </div>
 
-    <h2>The universe · 20 ETFs</h2>
+    <h2>The universe · {len(FACTOR_BASKET) + len(SECTOR_BASKET)} ETFs</h2>
     <div class="lightcard">
       {universe_html}
     </div>
