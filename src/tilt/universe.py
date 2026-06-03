@@ -7,10 +7,16 @@ from __future__ import annotations
 import pandas as pd
 
 
-# Factor basket (8) — factor-exposure ETFs. The strategy picks one per month
-# by 12-month trailing total return. Substitutions vs author's original spec:
+# Factor basket (11) — factor-exposure ETFs. The strategy picks one per month
+# by 12-1 trailing total return. Substitutions vs author's original spec:
 #  WSML.L replaces "MSCI Europe Small Cap" — UCITS for that index isn't on
 #  yfinance, so we use the World Small Cap UCITS as proxy.
+# 2026-06-03: added three clean EM single-factor ETFs (value/quality/size) for
+#  genuine geographic decorrelation from the US-heavy USA+Europe set. EM-momentum
+#  and UK single-factor ETFs were investigated but do not exist as UCITS on the
+#  LSE; active investment trusts were tested as proxies and rejected (AUSC
+#  whipsawed -10% fwd, +7pp max DD; TEM admissible but dominated by the clean
+#  ETFs). See outputs/2026-06-03-tilt-em-uk-expansion in SecondBrain.
 FACTOR_BASKET = [
     ("IUMO.L", "iShares Edge MSCI USA Momentum"),
     ("IUQA.L", "iShares Edge MSCI USA Quality"),
@@ -20,6 +26,9 @@ FACTOR_BASKET = [
     ("IEQU.L", "iShares Edge MSCI Europe Quality"),
     ("IEVL.L", "iShares Edge MSCI Europe Value"),
     ("WSML.L", "iShares MSCI World Small Cap"),
+    ("EMVL.L", "iShares Edge MSCI EM Value"),
+    ("FEMI.L", "Fidelity EM Quality Income"),
+    ("EMSD.L", "SPDR MSCI EM Small Cap"),
 ]
 
 # Sector basket (12) — full 11 GICS sectors of the S&P 500 + pure semis thematic.

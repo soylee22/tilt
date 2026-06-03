@@ -294,11 +294,11 @@ def _universe_table() -> str:
     return f"""
     <div class="universe-grid">
       <div>
-        <div class="leg-label">FACTOR BASKET · 8 ETFs</div>
+        <div class="leg-label">FACTOR BASKET · {len(FACTOR_BASKET)} ETFs</div>
         <table class="universe-table"><tbody>{rows_f}</tbody></table>
       </div>
       <div>
-        <div class="leg-label">SECTOR BASKET · 12 ETFs</div>
+        <div class="leg-label">SECTOR BASKET · {len(SECTOR_BASKET)} ETFs</div>
         <table class="universe-table"><tbody>{rows_s}</tbody></table>
       </div>
     </div>
